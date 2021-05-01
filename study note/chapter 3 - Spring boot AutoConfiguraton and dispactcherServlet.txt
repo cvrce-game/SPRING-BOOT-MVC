@@ -1,0 +1,39 @@
+Spring boot AutoConfiguraton and dispactcherServlet
+---------------------------------------------------
+1. What is dispactcherServlet?
+2. Who is configuring dispactcherServlet?
+3. What is dispactcherServlet do?
+4. How HelloWolrd object converted into JSON
+5. Who is configuring error mapping
+
+->Start the application with debug mode
+---------------------------------------
+application.properties
+----------------------
+logging.level.springframework = debug
+
+if we run the application in debug mode, we will able to see auto configuration report, There is wil see the deatils
+
+->inside springboot-starter-web Dispatcher servlet is present
+
+->springboot-starter-web has dependency of Spring MVC, so we get dispactcherServlet in our classpath
+
+-> All the dependencies of Spring MVC is getting fired beacuse of Spring boot AutoConfiguraton. What ever the things will aviable
+to the classpath spring boot will do the AutoConfiguraton.
+
+->HttpMessageConverterAutoConfiguration : It is responisble to convert the bean to JSON.
+
+->Jackson2ObjectMapper: This acually does the conversion from bean to JSON and JSON to bean.
+
+->There is class called WhiteLevelErrorViewConfirguation  which is responisble for White Label Error page what we we get.
+
+dispactcherServlet
+------------------
+->This is root of all the Web Application.It is handling all the request
+
+-> When ever we are hitting a URL, the request goes to dispactcherServlet, it determine which is the right controller to execute the request.
+
+-> It check the request method and name then it routes to the appropiate controller and execute the appropiate method.
+
+->dispactcherServlet uses @ResponseBody annotation present inside @RestController which allow to convert the bean object to appropiate format.
+  @ResponseBody internally uses Jackson2ObjectMapper to do so.
