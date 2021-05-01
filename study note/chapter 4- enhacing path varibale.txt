@@ -1,0 +1,16 @@
+Enhacing path varibale
+----------------------
+-> Whatever is define in the uri in the form of{pathvalue} is called path varibale
+   eg: /hello/path-variable/{123}
+   
+->we should map this path varible as method argument with @PathVariable annotation
+
+Example :
+URL : http://localhost:8080/hello/pathvariable/123
+
+@GetMapping(path = "/hello/pathvariable/{value}")
+	public String helloPathVariable(@PathVariable String value) {
+		
+		return String.format("You sent this value : "+value);
+		
+	}
