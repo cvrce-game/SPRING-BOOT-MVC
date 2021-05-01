@@ -1,0 +1,66 @@
+REST
+--------
+-> REST: Representational State Transfer
+
+-> REST is style of software architecture for distributing hypermedia syatem 
+
+A resouce can have diff represenations
+	- XML
+	-HTML
+	-JSON
+	
+Creating a Hello World Service
+-------------------------------
+
+1.@Controller
+-----------
+We need to annotatated a class with @Controller annotation, so that spring will get to the that this will be my
+controller which will controll my HTTP request.
+
+@RestController : It will indicate the spring to handle rest request.
+
+
+2.Define a method with return type and add @RequestMapping on top of the method.
+@RequestMapping : Mapp the request like GET,POST,DELETE ect. this annotation is used.
+				  
+				  We need to mention the Request type in method attribute.
+				  eg. method=RequestMethod.GET
+				  
+				  We need to mapp the URI in path attribute
+				  eg. path="/hello"
+				  
+				  @RequestMapping(method=RequestMethod.GET, path="/hello")
+				  
+Example
+
+@RestController
+public class HelloWorldController {
+
+	//GET
+	//URI : "/hello"
+	//method : helloWorld
+	@RequestMapping(method = RequestMethod.GET, path = "/hello")
+	public String helloWorld() {
+		
+		return "Hi";
+		
+	}
+}
+
+3. Instead of @RequestMapping, we can use @GetMapping and remove method type
+
+@RestController
+public class HelloWorldController {
+
+	//GET
+	//URI : "/hello"
+	//method : helloWorld
+	@GetMapping(path = "/hello")
+	public String helloWorld() {
+		
+		return "Hi";
+		
+	}
+}
+
+4.Like @GetMapping, we can use @PutMapping and @DeleteMapping for put and delete request
