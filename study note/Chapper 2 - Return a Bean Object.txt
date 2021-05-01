@@ -1,0 +1,41 @@
+Return a Bean Object
+--------------------
+1. If we want to use Bean Object as return type , then in model class, it need to define getter method mandatoryly, else 
+	automatic coversion will not happen an we will get white lable error.
+	
+2. for better json experience install json viewer from chrome store
+Example
+-------
+@GetMapping(path = "/hello-bean")
+	public HelloWorldBean helloWorldBean() {
+		
+		return new HelloWorldBean("Welcome");
+		
+	}
+
+HelloWorldBean.java
+-------------------
+package com.pratice.mvc.model;
+
+public class HelloWorldBean {
+
+	private String message;
+
+	public HelloWorldBean(String message) {
+		this.message = message;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	@Override
+	public String toString() {
+		return "HelloWorldBean [message=" + message + "]";
+	}
+
+}
