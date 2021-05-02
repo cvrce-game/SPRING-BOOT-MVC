@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
 		if (user.getId() == 0) {
 			id++;
 		}
-		userList.add(new User(id, user.getName(), user.getDOB()));
+		userList.add(new User(id, user.getName()+id, user.getDOB()));
 		return userList;
 	}
 }

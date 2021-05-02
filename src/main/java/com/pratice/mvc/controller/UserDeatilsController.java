@@ -1,9 +1,11 @@
 package com.pratice.mvc.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,10 +34,10 @@ public class UserDeatilsController {
 	}
 
 	@PostMapping(path = "/save")
-	public List<User> save(@RequestBody User user) {
+	public ResponseEntity<?> save(@RequestBody User user) {
 
 		List<User> userList = userService.save(new User(0, user.getName(), user.getDOB()));
 		System.out.println(userList);
-		return userList;
+		return ResponseEntity.ok(userList);
 	}
 }
