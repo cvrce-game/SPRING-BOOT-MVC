@@ -1,0 +1,96 @@
+Generic Exception Handler
+-------------------------
+
+ResponseEnityExceptionHandler
+-----------------------------
+->This is abstract class Which can be extended to provide the Centralize excpetion handler accross all controller.
+
+@ControllerAdvice
+-----------------
+This will declar the class's methods to be shared accross multiple classes.
+
+
+Steps :
+
+1.Define a custome ExceptionResponse Pojo with custome properties
+
+2. Define a UserDefinedExceptionHandler extending ResponseEnityExceptionHandler class and annotating @ControllerAdvice and @RestController,
+	So that all the methods declared inside the class wil be shared to other classes.
+
+3. Override handleAllException() in UserDefinedExceptionHandler class
+
+4. @ExceptionHandler -> Give this annotation on top of the method  to handle a specific User Defined Exception
+	Ex.
+	
+	@ExceptionHandler(IdNotFoundException.class)
+	public final ResponseEntity<Object> handleAllException(Exception ex, WebRequest request) throws Exception {
+	
+	}
+	
+Example
+-------
+UserDeatilsController.java
+--------------------------
+@GetMapping(path = "/getId/{id}")
+	public ResponseEntity<?> getById(@PathVariable int id) {
+		User user = userService.getById(id);
+		if (user == null) {
+			throw new IdNotFoundException(id + ":Id Not Found");
+		}
+		return ResponseEntity.ok(user);
+	}
+	
+ExceptionResponse.class
+-----------------------
+public class ExceptionResponse {
+
+	private Date timeStamp;
+	private String message;
+	private String details;
+	
+	public ExceptionResponse(Date timeStamp, String message, String details) {
+		super();
+		this.timeStamp = timeStamp;
+		this.message = message;
+		this.details = details;
+	}
+	
+	public Date getTimeStamp() {
+		return timeStamp;
+	}
+	public void setTimeStamp(Date timeStamp) {
+		this.timeStamp = timeStamp;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	public String getDetails() {
+		return details;
+	}
+	public void setDetails(String details) {
+		this.details = details;
+	}
+	@Override
+	public String toString() {
+		return "ExceptionResponse [timeStamp=" + timeStamp + ", message=" + message + ", details=" + details + "]";
+	}
+	
+}
+
+CustomizedResponseEntityExceptionHandler.java
+---------------------------------------------
+@ControllerAdvice
+@RestController
+public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
+
+	@ExceptionHandler(IdNotFoundException.class)
+	public final ResponseEntity<Object> handleAllException(Exception ex, WebRequest request) throws Exception {
+
+		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), ex.toString());
+
+		return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
+	}
+}
