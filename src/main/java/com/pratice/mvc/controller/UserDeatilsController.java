@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pratice.mvc.exception.IdNotFoundException;
 import com.pratice.mvc.model.User;
 import com.pratice.mvc.service.UserService;
 
@@ -28,9 +29,12 @@ public class UserDeatilsController {
 	}
 
 	@GetMapping(path = "/getId/{id}")
-	public List<User> getById(@PathVariable int id) {
-
-		return userService.getById(id);
+	public ResponseEntity<?> getById(@PathVariable int id) {
+		User user = userService.getById(id);
+		if (user == null) {
+			throw new IdNotFoundException(id + ":Id Not Found");
+		}
+		return ResponseEntity.ok(user);
 	}
 
 	@PostMapping(path = "/save")

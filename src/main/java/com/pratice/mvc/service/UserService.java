@@ -13,5 +13,5 @@ public interface UserService {
 
 	public List<User> save(User user);
 
-	public List<User> getById(int id);
+	public User getById(int id);
 }

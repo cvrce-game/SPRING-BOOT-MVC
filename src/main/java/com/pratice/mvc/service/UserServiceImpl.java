@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Component;
 
+import com.pratice.mvc.exception.IdNotFoundException;
 import com.pratice.mvc.model.User;
 
 @Component
@@ -34,8 +35,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> getById(int id) {
-		return userList.stream().filter(user -> user.getId() == id).collect(Collectors.toList());
+	public User getById(int id) {
+		User usr = null;
+		System.out.println(this.userList.stream().filter(user -> user.getId() == id).collect(Collectors.toList()));
+		List<User> ll = this.userList.stream().filter(user -> user.getId() == id).collect(Collectors.toList());
+		if(ll.size() == 1) {
+			usr= ll.get(0);
+		}
+		return usr;
 	}
 
 	@Override
@@ -43,7 +50,7 @@ public class UserServiceImpl implements UserService {
 		if (user.getId() == 0) {
 			id++;
 		}
-		userList.add(new User(id, user.getName()+id, user.getDOB()));
+		userList.add(new User(id, user.getName() + id, user.getDOB()));
 		return userList;
 	}
 }

@@ -1,0 +1,45 @@
+Exception Handling
+------------------
+
+@ResponseStatus :
+----------------
+
+-> This annonation is added on top of userdefined Exception class to to send the HTTP Status in the exception response
+
+Example :
+IdNotFoundException.java
+------------------------
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class IdNotFoundException extends RuntimeException {
+
+	public IdNotFoundException() {
+		super();
+	}
+
+	public IdNotFoundException(String message) {
+		super(message);
+	}
+}
+
+UserDeatilsController.java
+--------------------------
+GetMapping(path = "/getId/{id}")
+	public ResponseEntity<?> getById(@PathVariable int id) {
+		User user = userService.getById(id);
+		if (user == null) {
+			throw new IdNotFoundException(id + ":Id Not Found");
+		}
+		return ResponseEntity.ok(user);
+	}
+
+UserServiceImpl.java
+--------------------
+public User getById(int id) {
+		User usr = null;
+		System.out.println(this.userList.stream().filter(user -> user.getId() == id).collect(Collectors.toList()));
+		List<User> ll = this.userList.stream().filter(user -> user.getId() == id).collect(Collectors.toList());
+		if(ll.size() == 1) {
+			usr= ll.get(0);
+		}
+		return usr;
+	}
