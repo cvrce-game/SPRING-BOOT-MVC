@@ -1,0 +1,77 @@
+Craeting user bean and user service
+-----------------------------------
+@RequestBody
+------------
+This annonation help to map the request body to DTO.
+
+Ex.
+
+public List<User> save(@RequestBody User user)
+
+UserDeatilsController.java
+--------------------------
+@RestController
+public class UserDeatilsController {
+
+	@Autowired
+	UserService userService;
+
+	@GetMapping(path = "/getAll")
+	public List<User> getAllUserDeatails() {
+
+		return userService.getAll();
+	}
+
+	@GetMapping(path = "/getId/{id}")
+	public List<User> getById(@PathVariable int id) {
+
+		return userService.getById(id);
+	}
+
+	@PostMapping(path = "/save")
+	public List<User> save(@RequestBody User user) {
+
+		List<User> userList = userService.save(new User(0, user.getName(), user.getDOB()));
+		System.out.println(userList);
+		return userList;
+	}
+}
+
+UserServiceImpl.java
+--------------------
+@Component
+public class UserServiceImpl implements UserService {
+
+	private List<User> userList = new ArrayList<User>(10);
+	int id = 0;
+
+	@PostConstruct
+	public void init() {
+		id++;
+		userList.add(new User(1, "Papun", new Date()));
+		id++;
+		userList.add(new User(2, "Papun2", new Date()));
+		id++;
+		userList.add(new User(3, "Papun3", new Date()));
+	}
+
+	@Override
+	public List<User> getAll() {
+
+		return this.userList;
+	}
+
+	@Override
+	public List<User> getById(int id) {
+		return userList.stream().filter(user -> user.getId() == id).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<User> save(User user) {
+		if (user.getId() == 0) {
+			id++;
+		}
+		userList.add(new User(id, user.getName(), user.getDOB()));
+		return userList;
+	}
+}
