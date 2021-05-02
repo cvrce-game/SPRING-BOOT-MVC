@@ -1,0 +1,31 @@
+Swagger 3.0
+-----------
+1.Use below dependencies for Swagger 3.0
+
+<dependency>
+	<groupId>io.springfox</groupId>
+	<artifactId>springfox-swagger2</artifactId>
+	<version>2.9.2</version>
+</dependency>
+
+<dependency>
+	<groupId>io.springfox</groupId>
+	<artifactId>springfox-swagger-ui</artifactId>
+	<version>2.9.2</version>
+</dependency>
+
+2.Add this below annotation on top of you configuartion Class
+
+@EnableSwagger2
+
+3.Create a Bean of Docket
+
+	@Bean
+	public Docket docketApi() {
+		return new Docket(DocumentationType.SWAGGER_2);
+	}
+
+4.Hit the below urls
+
+http://localhost:8080/v2/api-docs
+
