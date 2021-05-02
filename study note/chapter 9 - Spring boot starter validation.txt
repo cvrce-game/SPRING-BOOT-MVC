@@ -1,0 +1,101 @@
+Spring boot starter validation
+------------------------------
+1. Add this below dependency in pom.xml
+
+<dependency>    
+    <groupId>org.springframework.boot</groupId>    
+    <artifactId>spring-boot-starter-validation</artifactId>
+</dependency>
+
+@Valid()
+--------
+This annotation used to check the Pojo properties are valid or not
+
+@Size(min=2)
+------------
+
+This annotation is used on top of Pojo property to validate the size of the property.
+@Size(min = 2,message = "Name Should be 2 character minimun")
+Private String name;
+
+Means name size should be 2 else it is throw Bad Request. we can also specify the error message.
+
+@Past
+-----
+
+@Past(message = "DOB should be in Past Date")
+private Date DOB;
+
+It means DOB should be in Past date.
+
+2.To get the validation error is the response object, override the handleMethodArgumentNotValid() from ResponseEntityExceptionHandler class.
+
+Example
+-------
+
+UserDeatilsController.java
+--------------------------
+@PostMapping(path = "/save")
+	public ResponseEntity<?> save(@Valid @RequestBody User user) {
+
+		List<User> userList = userService.save(new User(0, user.getName(), user.getDOB()));
+		System.out.println(userList);
+		return ResponseEntity.ok(userList);
+	}
+	
+User.java
+---------
+public class User {
+
+	private Integer id;
+
+	@Size(min = 2,message = "Name Should be 2 character minimun")
+	private String name;
+
+	@Past
+	private Date DOB;
+
+	public User() {
+
+	}
+
+	public User(Integer id, String name, Date dOB) {
+		super();
+		this.id = id;
+		this.name = name;
+		DOB = dOB;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Date getDOB() {
+		return DOB;
+	}
+
+	public void setDOB(Date dOB) {
+		DOB = dOB;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", DOB=" + DOB + "]";
+	}
+
+}
+
+CustomizedResponseEntityExceptionHandler.class
+----------------------------------------------
