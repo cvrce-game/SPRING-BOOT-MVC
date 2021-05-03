@@ -1,0 +1,26 @@
+Filtering Json from Response
+----------------------------
+
+-> If there are 3 fields in your pojo, but you dont want to send 2nd and 3rd properties in the response. then we need to follow Filtering concept.
+
+@JsonIgonre
+-----------
+If we will add this annonation on top of the property  then it will be ignored in the JSON.
+
+Ex. 
+
+@JsonIgonre
+private String password.
+
+@@JsonIgnoreProperties(value = {name,password})
+----------------------------------------
+This annonation is added on top of the Class to indicate the name of the properties to ignored from the Response JSON.
+
+Ex.
+@@JsonIgnoreProperties(value={"name","password"})
+Public Class UserDto{
+
+}
+
+Dynamic Filtering
+-----------------
